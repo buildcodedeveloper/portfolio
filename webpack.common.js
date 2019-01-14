@@ -32,11 +32,11 @@ module.exports = {
     rules: [
 
       {
-        test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
+        test: /[\/\\]node_modules[\/\\]bower_components[\/\\]index\.js$/,
         loader: "imports?this=>window"
       },
       {
-        test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
+        test: /[\/\\]node_modules[\/\\]bower_components[\/\\]index\.js$/,
         loader: "imports?define=>false"
       },
 
@@ -166,7 +166,7 @@ module.exports = {
 
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /bower_components/],
         loader: 'babel-loader'
       }
 
@@ -183,10 +183,19 @@ module.exports = {
 
   },
   resolve: {
+
+    extensions: [
+      ".js"
+    ],
+    modules: [
+      path.resolve(__dirname, "scripts"),
+      "node_modules",
+      "bower_components"
+    ],
     alias: {
-      'img': path.resolve('src/img/')
-    },
-    extensions: ['.js'],
+      jquery: "jquery/dist/jquery.slim.min.js",
+      'img': path.resolve('src/img/'),
+    }
     // alias: {
     //   'jquery': 'jquery/dist/jquery.js',
     // },
@@ -240,11 +249,16 @@ module.exports = {
       },
     }),
     new HtmlWebpackExternalsPlugin({
-      externals: [{
-        module: 'jquery',
-        entry: 'dist/jquery.min.js',
-        global: 'jQuery',
-      }, ],
+      externals: [
+        {module: 'jquery',entry: 'dist/jquery.min.js',global: 'jQuery',},
+        {module: 'bootstrap',entry: 'dist/css/bootstrap.min.css'},
+        {module: 'bootstrap', entry: 'dist/js/bootstrap.min.js'},
+        {module: 'fontawesome', entry: ['css/fontawesome.min.css', 'js/fontawesome.min.js'],}
+        
+        ,],
+      cwpOptions: {
+        context: path.resolve(__dirname, 'bower_components'),
+      },
     }),
 
     // new HtmlWebpackExternalsPlugin({

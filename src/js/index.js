@@ -27,8 +27,8 @@
 // //     });
 // // }
 
-import 'airbnb-browser-shims';
 import '../sass/main.sass';
+
 
 
 if (process.env.NODE_ENV !== 'production') {
